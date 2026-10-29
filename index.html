@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Nigora uchun maxsus ❤️</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffe6e6;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        .container {
+            position: relative;
+            width: 90%;
+            max-width: 420px;
+            height: 280px;
+            perspective: 1000px;
+            cursor: pointer;
+            margin-top: 50px; /* Xat tepaga chiqqanda ekran tepasiga yopishib qolmasligi uchun */
+        }
+        /* Konvert orqa qismi */
+        .envelope {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #ff4d6d;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            z-index: 2;
+        }
+        /* Konvertning yon va pastki qismlarini yopuvchi qatlam */
+        .envelope::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 210px solid transparent;
+            border-right: 210px solid transparent;
+            border-bottom: 140px solid #ff3355;
+            border-radius: 0 0 10px 10px;
+            z-index: 3;
+        }
+        @media (max-width: 450px) {
+            .envelope::after {
+                border-left: 45vw solid transparent;
+                border-right: 45vw solid transparent;
+                border-bottom: 30vw solid #ff3355;
+            }
+        }
+        /* Konvertning ustki qopqog'i */
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 210px solid transparent;
+            border-right: 210px solid transparent;
+            border-top: 140px solid #ff758f;
+            transform-origin: top;
+            transition: transform 0.5s ease, z-index 0s linear 0.2s;
+            z-index: 4;
+        }
+        @media (max-width: 450px) {
+            .envelope::before {
+                border-left: 45vw solid transparent;
+                border-right: 45vw solid transparent;
+                border-top: 30vw solid #ff758f;
+            }
+        }
+        /* Maktub xati */
+        .letter {
+            position: absolute;
+            bottom: 5px;
+            left: 5%;
+            width: 90%;
+            height: 90%;
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1; /* Dastlab konvert ichida yashirin turadi */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .letter h1 {
+            font-size: 22px;
+            color: #ff4d6d;
+            margin-bottom: 10px;
+        }
+        .letter p {
+            font-size: 16px;
+            color: #4a4a4a;
+            line-height: 1.5;
+        }
+        /* --- OCHILISH EFFEKTLARI --- */
+        /* Qopqoq yuqoriga ochiladi */
+        .container.open .envelope::before {
+            transform: rotateX(180deg);
+            z-index: 1; /* Ochilgach, xatning orqasiga o'tadi */
+        }
+        /* Xat yuqoriga chiqib, konvert ustiga joylashadi */
+        .container.open .letter {
+            transform: translateY(-90px) scale(1.02);
+            z-index: 5; /* Eng ustki qatlamga chiqadi */
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        /* Uchib yuruvchi yurakchalar */
+        .heart {
+            position: absolute;
+            color: #ff4d6d;
+            animation: floatUp 4s linear infinite;
+            opacity: 0;
+            font-size: 20px;
+            z-index: 10;
+            pointer-events: none;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" onclick="toggleEnvelope(this)">
+        <div class="envelope"></div>
+        <div class="letter">
+            <h1>Nigora 💓</h1>
+            <p>San dunyodagi eng chiroyli qizsan. Sani judayam sevaman jonim 💋</p>
+        </div>
+    </div>
+
+    <script>
+        function toggleEnvelope(element) {
+            element.classList.toggle('open');
+            if(element.classList.contains('open')) {
+                createHearts();
+            }
+        }
+
+        function createHearts() {
+            for(let i=0; i<15; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.classList.add('heart');
+                    heart.innerHTML = '❤️';
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+                    document.body.appendChild(heart);
+                    setTimeout(() => heart.remove(), 4000);
+                }, i * 300);
+            }
+        }
+    </script>
+</body>
+</html>
